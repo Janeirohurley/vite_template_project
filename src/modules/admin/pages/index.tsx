@@ -1,5 +1,0 @@
-export { AdminDashboard } from "./AdminDashboard"
-export { ActivityLogsPage } from "./ActivityLogsPage"
-export { ConfigurationPage } from "./ConfigurationPage"
-export { UsersManagementPage } from "./UsersManagementPage"
-export { ProgramManagementPage } from "./ProgramManagementPage"

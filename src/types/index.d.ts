@@ -1,7 +1,0 @@
-// src/types/index.d.ts
-
-export * from "./api";
-export * from "./user";
-export * from "./common";
-export * from "./entities";
-export * from "./form";

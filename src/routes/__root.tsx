@@ -1,60 +1,43 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Toaster } from 'sonner'
-import { useSettings } from '@/store/settings'
-import { useAuthStore } from '@/modules/auth/store/authStore'
-import { GenericErrorComponent } from '@/components/GenericErrorComponent'
-import { useEffect, useState } from 'react'
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
-import { AuthReconnectPopover } from '@/components/AuthReconnectPopover'
-
-const queryClient = new QueryClient()
+import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { Toaster } from "sonner";
+import { GenericErrorComponent } from "@/components/GenericErrorComponent";
+import { APP_NAME } from "@/lib/env";
 
 function RootComponent() {
-    const [isReady, setIsReady] = useState(false)
-    const initializeAuth = useAuthStore((state) => state.initialize)
-    const hasHydrated = useAuthStore((state) => state.hasHydrated)
-    const showRouterDevtools =
-        import.meta.env.VITE_APP_SHOW_ROUTER_DEVTOOLS === 'true';
+  const showRouterDevtools =
+    import.meta.env.DEV || import.meta.env.VITE_APP_SHOW_ROUTER_DEVTOOLS === "true";
 
+  return (
+    <div className="min-h-screen text-slate-100">
+      <header className="border-b border-white/10 bg-slate-950/70 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <Link to="/" className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-300">
+            {APP_NAME}
+          </Link>
+          <nav className="flex items-center gap-3 text-sm text-slate-300">
+            <Link to="/" className="rounded-full border border-white/10 px-3 py-1.5 transition hover:bg-white/5">
+              Home
+            </Link>
+            <Link
+              to="/not-found"
+              className="rounded-full border border-white/10 px-3 py-1.5 transition hover:bg-white/5"
+            >
+              404 example
+            </Link>
+          </nav>
+        </div>
+      </header>
 
-
-
-    // Initialiser les stores au démarrage
-    useEffect(() => {
-        if (!hasHydrated) return;
-
-        const init = async () => {
-            useSettings.getState().loadFromStorage()
-            await initializeAuth()
-            setIsReady(true)
-        }
-
-        init()
-    }, [hasHydrated, initializeAuth])
-
-    if (!isReady) {
-        return <LoadingSpinner /> // spinner tant que l'auth n'est pas chargée
-    }
-
-    return (
-        <QueryClientProvider client={queryClient}>
-            <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
-                <Outlet />
-                <AuthReconnectPopover />
-                <Toaster position="top-right" />
-                {showRouterDevtools && <TanStackRouterDevtools />}
-            </div>
-        </QueryClientProvider>
-    )
+      <Outlet />
+      <Toaster richColors position="top-right" />
+      {showRouterDevtools ? <TanStackRouterDevtools position="bottom-right" /> : null}
+    </div>
+  );
 }
 
 export const Route = createRootRoute({
-    component: RootComponent,
-    errorComponent: GenericErrorComponent,
-    notFoundComponent: () => {
-        window.location.href = '/not-found'
-        return null
-    },
-})
+  component: RootComponent,
+  errorComponent: GenericErrorComponent,
+  notFoundComponent: () => <GenericErrorComponent error={new Error("Page not found")} />,
+});

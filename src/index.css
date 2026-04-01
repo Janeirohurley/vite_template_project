@@ -1,154 +1,75 @@
-/* app.css / globals.css */
-
-/* Import de Tailwind v4 (CSS-first) */
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
 
-/* ↳ On peut aussi désactiver les couleurs par défaut si on veut un thème 100% custom */
-/* @theme { --color-*: initial } */
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 @theme {
-  /* ----- BRAND & ACCENT ----- */
-  --color-brand-primary: #3b82f6;
-  --color-brand-secondary: #9333ea;
-  --color-brand-accent: #f59e0b;
-
-  /* ----- BACKGROUNDS / SURFACES ----- */
-  --color-bg-body: #fff;
-  --color-bg-surface: #ffffff;
-  --color-bg-card: #ffffff;
-  --color-bg-muted: #f1f5f9;
-
-  /* ----- TEXT ----- */
+  --color-brand-primary: #0f172a;
+  --color-brand-accent: #2563eb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #e2e8f0;
   --color-text-primary: #0f172a;
   --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
-  --color-text-inverse: #ffffff;
-
-  /* ----- BORDERS / DIVIDERS ----- */
-  --color-border-light: #e2e8f0;
-  --color-border-medium: #cbd5e1;
-  --color-border-strong: #94a3b8;
-
-  /* ----- ALERTS / STATUS ----- */
-  --color-success-bg: #ecfdf5;
-  --color-success-text: #047857;
-  --color-warning-bg: #fffbeb;
-  --color-warning-text: #b45309;
-  --color-error-bg: #fef2f2;
-  --color-error-text: #b91c1c;
-  --color-info-bg: #eff6ff;
-  --color-info-text: #1d4ed8;
-
-  /* etc. — tu peux ajouter autant de variables que tu veux */
+  --color-text-inverse: #f8fafc;
+  --font-sans: "IBM Plex Sans", "Segoe UI", sans-serif;
 }
 
-
-/* ----- Variante Dark (toggle .dark sur html/body) ----- */
 html.dark {
   @theme {
-    --color-bg-body: #0f172a;
-    --color-bg-surface: #1e293b;
-    --color-bg-card: #1e293b;
-    --color-bg-muted: #334155;
-
-    --color-text-primary: #f1f5f9;
+    --color-brand-primary: #e2e8f0;
+    --color-brand-accent: #60a5fa;
+    --color-surface: #020617;
+    --color-surface-muted: #1e293b;
+    --color-text-primary: #e2e8f0;
     --color-text-secondary: #94a3b8;
-    --color-text-muted: #cbd5e1;
-    --color-text-inverse: #0f172a;
-
-    --color-border-light: #475569;
-    --color-border-medium: #64748b;
-    --color-border-strong: #94a3b8;
-
-    --color-success-bg: #064e3b;
-    --color-success-text: #d1fae5;
-    --color-warning-bg: #78350f;
-    --color-warning-text: #fef3c7;
-    --color-error-bg: #7f1d1d;
-    --color-error-text: #fee2e2;
-    --color-info-bg: #1e40af;
-    --color-info-text: #dbeafe;
-
-    /* ... et tout ce que tu veux override pour le mode sombre */
+    --color-text-inverse: #020617;
   }
 }
 
-
-/* Utilitaires personnalisés si tu veux */
-.btn-primary {
-  background-color: var(--color-brand-primary);
-  color: var(--color-text-inverse);
-  border-radius: 0.5rem;
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
-.font-dashboard {
-  font-family: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.2), transparent 30%),
+    linear-gradient(180deg, #020617 0%, #111827 45%, #f8fafc 45%, #f8fafc 100%);
+  color: var(--color-text-primary);
 }
 
-/* Custom scrollbar styles for DataTable */
-.scrollbar-custom {
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 #f1f5f9;
+* {
+  box-sizing: border-box;
 }
 
-.scrollbar-custom::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.scrollbar-custom::-webkit-scrollbar-track {
-  background: #f1f5f9;
-  border-radius: 4px;
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
-.scrollbar-custom::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-  transition: background 0.2s;
+code {
+  font-family: "Cascadia Code", "Fira Code", monospace;
 }
 
-.scrollbar-custom::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+::selection {
+  background: rgba(37, 99, 235, 0.25);
 }
-
-/* Dark mode scrollbar */
-html.dark .scrollbar-custom {
-  scrollbar-color: #475569 #1e293b;
-}
-
-html.dark .scrollbar-custom::-webkit-scrollbar-track {
-  background: #1e293b;
-}
-
-html.dark .scrollbar-custom::-webkit-scrollbar-thumb {
-  background: #475569;
-}
-
-html.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
-}
-
-/* Column resize cursor */
-.resizing-columns * {
-  cursor: col-resize !important;
-  user-select: none !important;
-}
-
 
 @layer utilities {
-  @keyframes shimmer-wave {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
+  .surface-panel {
+    @apply rounded-md border border-white/10 bg-white/80 shadow-xl shadow-slate-950/10 backdrop-blur;
   }
 
-  .animate-shimmer-wave {
-    animation: shimmer-wave 2s infinite linear;
+  .surface-panel-dark {
+    @apply rounded-md border border-white/10 bg-slate-950/75 shadow-xl shadow-slate-950/30 backdrop-blur;
   }
 }

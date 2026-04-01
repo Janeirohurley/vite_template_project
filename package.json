@@ -1,13 +1,13 @@
 {
-  "name": "ums-web",
+  "name": "vite-react-tanstack-template",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "router": "npx @tanstack/router-cli generate --project ./src --output ./src/routeTree.ts",
+    "router": "npx @tanstack/router-cli generate --project ./src --output ./src/routeTree.gen.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "folder-generator": "node folderGenerator.js"
