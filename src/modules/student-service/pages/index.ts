@@ -1,0 +1,11 @@
+export { DashboardPage } from './DashboardPage';
+export { InscriptionsPage } from './InscriptionsPage';
+export { StudentsPage } from './StudentsPage';
+export { DocumentsPage } from './DocumentsPage';
+export { AbsencesPage } from './AbsencesPage';
+export { ScholarshipsPage } from './ScholarshipsPage';
+export { ActivitiesPage } from './ActivitiesPage';
+export { ClubsPage } from './ClubsPage';
+export { OrientationPage } from './OrientationPage';
+export { ReportsPage } from './ReportsPage';
+export { PopulationsPage } from './PopulationsPage';
