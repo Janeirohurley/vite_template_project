@@ -1,0 +1,49 @@
+name: Deploy ums-web PRODUCTION
+
+on:
+  push:
+    branches:
+      - main  # Se déclenche uniquement sur le push ou merge vers main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: SSH Deploy script (PRODUCTION)
+        uses: appleboy/ssh-action@v1
+        with:
+          # On utilise des secrets spécifiques pour la PROD
+          host: ${{ secrets.PROD_SERVER_IP }}
+          username: ${{ secrets.PROD_SERVER_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: 2222
+          script: |
+            #!/bin/bash
+            set -e
+
+            # Variables spécifiques à la PROD récupérées via Secrets
+            USER_NAME=${{ secrets.PROD_SERVER_USER }}
+            export HOME=/home/$USER_NAME
+            LOG_FILE="$HOME/deploy_frontend.log"
+            DATE=$(date '+%Y-%m-%d_%H-%M-%S')
+            EMAIL_NOTIF="ndabubahajanvier@gmail.com"
+
+            echo "-------------------------------------------------" >> "$LOG_FILE"
+            echo "🚀 DÉPLOIEMENT PRODUCTION démarré le $DATE" | tee -a "$LOG_FILE"
+
+            # 🔹 Notification de démarrage
+            echo -e "Subject: UMS PROD - DÉMARRÉ\n\nLe déploiement de la branche MAIN a commencé.\nDate: $DATE" | msmtp "$EMAIL_NOTIF"
+
+            # 🔹 Exécution du script de déploiement final
+            # Ce script sur le serveur doit pointer vers /var/www/ums/frontend
+            if [ -f "$HOME/deploy_frontend.sh" ]; then
+              bash "$HOME/deploy_frontend.sh"
+            else
+              echo "❌ Erreur : Script $HOME/deploy_frontend.sh introuvable" | tee -a "$LOG_FILE"
+              echo -e "Subject: UMS PROD - ÉCHEC\n\nFichier de script manquant sur le serveur." | msmtp "$EMAIL_NOTIF"
+              exit 1
+            fi

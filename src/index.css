@@ -1,0 +1,154 @@
+/* app.css / globals.css */
+
+/* Import de Tailwind v4 (CSS-first) */
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
+/* ↳ On peut aussi désactiver les couleurs par défaut si on veut un thème 100% custom */
+/* @theme { --color-*: initial } */
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  /* ----- BRAND & ACCENT ----- */
+  --color-brand-primary: #3b82f6;
+  --color-brand-secondary: #9333ea;
+  --color-brand-accent: #f59e0b;
+
+  /* ----- BACKGROUNDS / SURFACES ----- */
+  --color-bg-body: #fff;
+  --color-bg-surface: #ffffff;
+  --color-bg-card: #ffffff;
+  --color-bg-muted: #f1f5f9;
+
+  /* ----- TEXT ----- */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+  --color-text-inverse: #ffffff;
+
+  /* ----- BORDERS / DIVIDERS ----- */
+  --color-border-light: #e2e8f0;
+  --color-border-medium: #cbd5e1;
+  --color-border-strong: #94a3b8;
+
+  /* ----- ALERTS / STATUS ----- */
+  --color-success-bg: #ecfdf5;
+  --color-success-text: #047857;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #b45309;
+  --color-error-bg: #fef2f2;
+  --color-error-text: #b91c1c;
+  --color-info-bg: #eff6ff;
+  --color-info-text: #1d4ed8;
+
+  /* etc. — tu peux ajouter autant de variables que tu veux */
+}
+
+
+/* ----- Variante Dark (toggle .dark sur html/body) ----- */
+html.dark {
+  @theme {
+    --color-bg-body: #0f172a;
+    --color-bg-surface: #1e293b;
+    --color-bg-card: #1e293b;
+    --color-bg-muted: #334155;
+
+    --color-text-primary: #f1f5f9;
+    --color-text-secondary: #94a3b8;
+    --color-text-muted: #cbd5e1;
+    --color-text-inverse: #0f172a;
+
+    --color-border-light: #475569;
+    --color-border-medium: #64748b;
+    --color-border-strong: #94a3b8;
+
+    --color-success-bg: #064e3b;
+    --color-success-text: #d1fae5;
+    --color-warning-bg: #78350f;
+    --color-warning-text: #fef3c7;
+    --color-error-bg: #7f1d1d;
+    --color-error-text: #fee2e2;
+    --color-info-bg: #1e40af;
+    --color-info-text: #dbeafe;
+
+    /* ... et tout ce que tu veux override pour le mode sombre */
+  }
+}
+
+
+/* Utilitaires personnalisés si tu veux */
+.btn-primary {
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  border-radius: 0.5rem;
+}
+
+.font-dashboard {
+  font-family: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Custom scrollbar styles for DataTable */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+html.dark .scrollbar-custom {
+  scrollbar-color: #475569 #1e293b;
+}
+
+html.dark .scrollbar-custom::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+html.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+html.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Column resize cursor */
+.resizing-columns * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+
+@layer utilities {
+  @keyframes shimmer-wave {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer-wave {
+    animation: shimmer-wave 2s infinite linear;
+  }
+}
